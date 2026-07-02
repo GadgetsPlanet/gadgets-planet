@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gadgets Planet — Store</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B1220;
+    --panel:#121A2E;
+    --panel-hi:#17203A;
+    --border:#22304C;
+    --amber:#FF8A3D;
+    --amber-soft:#3A2A1C;
+    --teal:#4FD1C5;
+    --text:#F3EFE6;
+    --muted:#8B93A7;
+    --radius:18px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse 700px 500px at 50% -10%, rgba(255,138,61,0.08), transparent),
+      radial-gradient(ellipse 500px 400px at 100% 10%, rgba(79,209,197,0.06), transparent),
+      var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+    padding-bottom:60px;
+  }
+  .wrap{max-width:900px;margin:0 auto;padding:36px 16px 0;}
+
+  /* ---------- HEADER ---------- */
+  header{text-align:center;margin-bottom:22px;}
+  .badge{
+    display:inline-flex;align-items:center;gap:6px;
+    font-family:'Space Grotesk',sans-serif;
+    font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--amber);
+    background:var(--amber-soft);
+    border:1px solid rgba(255,138,61,0.3);
+    padding:5px 12px;border-radius:999px;
+    margin-bottom:14px;
+  }
+  .badge .ring{width:6px;height:6px;border-radius:50%;background:var(--amber);box-shadow:0 0 6px var(--amber);}
+  h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;font-size:28px;margin:0 0 8px;
+  }
+  h1 span{color:var(--amber);}
+  .tagline{color:var(--muted);font-size:14px;margin:0 0 18px;line-height:1.5;}
+  .socials{display:flex;justify-content:center;gap:10px;margin-bottom:6px;}
+  .socials a{
+    width:36px;height:36px;border-radius:50%;
+    background:var(--panel);border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--text);text-decoration:none;font-size:13px;font-weight:600;
+    transition:border-color .2s, transform .2s;
+  }
+  .socials a:hover{border-color:var(--amber);transform:translateY(-2px);}
+
+  /* ---------- CATEGORY RAIL ---------- */
+  .rail{
+    display:flex;gap:10px;overflow-x:auto;
+    padding:22px 2px 16px;
+    scrollbar-width:none;
+  }
+  .rail::-webkit-scrollbar{display:none;}
+  .cat{
+    flex:none;
+    display:flex;flex-direction:column;align-items:center;gap:6px;
+    width:72px;
+    cursor:pointer;
+    opacity:0.6;
+    transition:opacity .2s, transform .2s;
+  }
+  .cat:hover{opacity:0.9;}
+  .cat.active{opacity:1;}
+  .cat-icon{
+    width:52px;height:52px;border-radius:16px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:22px;
+    background:var(--panel);
+    border:1px solid var(--border);
+    transition:border-color .2s, background .2s, transform .2s;
+  }
+  .cat.active .cat-icon{
+    border-color:var(--amber);
+    background:var(--amber-soft);
+    transform:translateY(-2px);
+  }
+  .cat-label{
+    font-size:10.5px;
+    text-align:center;
+    color:var(--muted);
+    line-height:1.2;
+  }
+  .cat.active .cat-label{color:var(--text);font-weight:600;}
+
+  /* ---------- SECTION LABEL ---------- */
+  .section-label{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:12px;letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--muted);
+    margin:20px 4px 12px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .section-label::after{
+    content:'';flex:1;height:1px;background:var(--border);
+  }
+
+  /* ---------- PRODUCT GRID ---------- */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:12px;
+  }
+  @media (min-width:460px){
+    .grid{grid-template-columns:repeat(3, 1fr);}
+  }
+  @media (min-width:680px){
+    .grid{grid-template-columns:repeat(4, 1fr);}
+  }
+  .card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    overflow:hidden;
+    text-decoration:none;
+    color:var(--text);
+    display:flex;flex-direction:column;
+    transition:border-color .2s, transform .15s, background .2s;
+  }
+  .card:hover{border-color:var(--amber);transform:translateY(-3px);background:var(--panel-hi);}
+  .card:active{transform:translateY(0);}
+  .card-img{
+    aspect-ratio:1/1;
+    display:flex;align-items:center;justify-content:center;
+    font-size:38px;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(255,255,255,0.06), transparent 60%),
+      linear-gradient(160deg,#1B2740,#0E1526 75%);
+    position:relative;
+  }
+  .card-img img{width:100%;height:100%;object-fit:contain;padding:14px;}
+  .hot-tag{
+    position:absolute;top:8px;left:8px;
+    background:var(--amber);color:#1A1204;
+    font-size:9.5px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;
+    padding:3px 7px;border-radius:6px;
+  }
+  .card-info{padding:9px 10px 11px;}
+  .card-title{
+    font-size:12.5px;font-weight:600;line-height:1.3;
+    margin:0 0 4px;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  }
+  .card-sub{font-size:10.5px;color:var(--muted);margin:0;display:flex;align-items:center;gap:4px;}
+  .card-sub .go{color:var(--teal);font-weight:600;}
+
+  .empty{grid-column:1/-1;text-align:center;color:var(--muted);font-size:13px;padding:36px 0;}
+
+  /* ---------- DISCLOSURE / FOOTER ---------- */
+  .disclosure{
+    font-size:11.5px;color:var(--muted);line-height:1.6;
+    padding:14px 16px;border:1px solid var(--border);border-radius:14px;
+    background:rgba(255,255,255,0.02);
+    margin-top:30px;
+  }
+  footer{text-align:center;color:var(--muted);font-size:11.5px;margin-top:22px;}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header>
+    <div class="badge"><span class="ring"></span> Affiliate Store</div>
+    <h1>Gadgets <span>Planet</span></h1>
+    <p class="tagline">Viral gadgets & tested picks — shop everything<br>we feature on Instagram, right here 🪐</p>
+    <div class="socials">
+      <a href="https://instagram.com/YOUR_HANDLE" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+      <a href="https://youtube.com/@YOUR_HANDLE" target="_blank" rel="noopener" aria-label="YouTube">YT</a>
+      <a href="https://wa.me/YOUR_NUMBER" target="_blank" rel="noopener" aria-label="WhatsApp">WA</a>
+    </div>
+  </header>
+
+  <div class="rail" id="rail"></div>
+
+  <div class="section-label" id="sectionLabel">Latest Gadgets</div>
+  <div class="grid" id="grid"></div>
+
+  <div class="disclosure">
+    Some links on this page are affiliate links. If you buy through them, Gadgets Planet may earn a small commission — at no extra cost to you. We don't control third-party seller sites; prices and availability may change.
+  </div>
+
+  <footer>Gadgets Planet · updated regularly</footer>
+
+</div>
+
+<script>
+  // ---------------------------------------------------------
+  // 1) CATEGORIES — icon is any emoji, label shows on the chip
+  // ---------------------------------------------------------
+  const CATEGORIES = [
+    { key: "All",         icon: "🧩" },
+    { key: "Home",        icon: "🏠" },
+    { key: "Phone Acc.",  icon: "📱" },
+    { key: "Kitchen",     icon: "🍳" },
+    { key: "Audio",       icon: "🔊" },
+    { key: "Wearables",   icon: "⌚" },
+    { key: "Gaming",      icon: "🎮" },
+    { key: "Car",         icon: "🚗" },
+    { key: "Travel",      icon: "🧳" },
+  ];
+
+  // ---------------------------------------------------------
+  // 2) PRODUCTS — add/remove freely.
+  //    image: paste a product photo URL (transparent PNG looks best).
+  //            Leave empty to show the emoji placeholder instead.
+  //    hot:   true shows a "HOT" tag on the card.
+  // ---------------------------------------------------------
+  const PRODUCTS = [
+    { title: "Mini Projector — Pocket Size", sub: "Shop now", url: "https://amzn.to/REPLACE1", category: "Home", icon: "📽️", image: "", hot: true },
+    { title: "Instant Drink Chiller", sub: "Shop now", url: "https://amzn.to/REPLACE2", category: "Kitchen", icon: "🧊", image: "" },
+    { title: "Magnetic Phone Stand", sub: "Shop now", url: "https://amzn.to/REPLACE3", category: "Phone Acc.", icon: "📱", image: "" },
+    { title: "RGB Party Speaker", sub: "Shop now", url: "https://amzn.to/REPLACE4", category: "Audio", icon: "🔊", image: "", hot: true },
+    { title: "Smartwatch — AMOLED Display", sub: "Shop now", url: "https://amzn.to/REPLACE5", category: "Wearables", icon: "⌚", image: "" },
+    { title: "FPV Camera RC Car", sub: "Shop now", url: "https://amzn.to/REPLACE6", category: "Gaming", icon: "🚙", image: "" },
+    { title: "Tyre Pressure Detector", sub: "Shop now", url: "https://amzn.to/REPLACE7", category: "Car", icon: "🛞", image: "" },
+    { title: "CCTV Camera Bulb", sub: "Shop now", url: "https://amzn.to/REPLACE8", category: "Home", icon: "💡", image: "", hot: true },
+    { title: "Portable Neck Fan", sub: "Shop now", url: "https://amzn.to/REPLACE9", category: "Travel", icon: "🌀", image: "" },
+    { title: "Wireless Earbuds", sub: "Shop now", url: "https://amzn.to/REPLACE10", category: "Audio", icon: "🎧", image: "" },
+    { title: "Mechanical Keyboard", sub: "Shop now", url: "https://amzn.to/REPLACE11", category: "Phone Acc.", icon: "⌨️", image: "" },
+    { title: "65W GaN Fast Charger", sub: "Shop now", url: "https://amzn.to/REPLACE12", category: "Phone Acc.", icon: "🔌", image: "" },
+  ];
+
+  const railEl = document.getElementById('rail');
+  const gridEl = document.getElementById('grid');
+  const labelEl = document.getElementById('sectionLabel');
+  let active = "All";
+
+  function renderRail(){
+    railEl.innerHTML = "";
+    CATEGORIES.forEach(cat => {
+      const el = document.createElement('div');
+      el.className = 'cat' + (cat.key === active ? ' active' : '');
+      el.innerHTML = `<div class="cat-icon">${cat.icon}</div><div class="cat-label">${cat.key}</div>`;
+      el.onclick = () => { active = cat.key; renderRail(); renderGrid(); };
+      railEl.appendChild(el);
+    });
+  }
+
+  function renderGrid(){
+    labelEl.textContent = active === "All" ? "Latest Gadgets" : active;
+    gridEl.innerHTML = "";
+    const items = active === "All" ? PRODUCTS : PRODUCTS.filter(p => p.category === active);
+
+    if(items.length === 0){
+      gridEl.innerHTML = '<div class="empty">No products in this category yet.</div>';
+      return;
+    }
+
+    items.forEach(p => {
+      const a = document.createElement('a');
+      a.href = p.url;
+      a.target = "_blank";
+      a.rel = "noopener sponsored";
+      a.className = 'card';
+      a.innerHTML = `
+        <div class="card-img">
+          ${p.hot ? '<span class="hot-tag">Hot</span>' : ''}
+          ${p.image ? `<img src="${p.image}" alt="${p.title}">` : p.icon}
+        </div>
+        <div class="card-info">
+          <p class="card-title">${p.title}</p>
+          <p class="card-sub"><span class="go">Shop now</span> ↗</p>
+        </div>
+      `;
+      gridEl.appendChild(a);
+    });
+  }
+
+  renderRail();
+  renderGrid();
+</script>
+
+</body>
+</html>
